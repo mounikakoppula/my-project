@@ -1,6 +1,7 @@
 package com.niit.model;
 
 import javax.persistence.Entity;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +13,13 @@ import org.springframework.stereotype.Component;
 public class Supplier {
 	private String id;
 	private String name;
-	private String address;
+	private String description;
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	@Id
 	public String getId() {
 		return id;
@@ -26,16 +33,8 @@ public class Supplier {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public void setDescription(String string) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	
 
-}
+

@@ -1,11 +1,10 @@
-
 package com.niit.dao;
 
 import java.util.List;
 
-import javax.persistence.Query;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,51 +12,56 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.model.Supplier;
 
+@SuppressWarnings("deprecation")
+@Repository("supplierDAO")
+public class SupplierDAOImpl implements SupplierDAO {
+	
 
-@Repository("SupplierDAO")
-public abstract class SupplierDAOImpl implements SupplierDAO {
-	private static final Object Category = null;
 	@Autowired
 	private SessionFactory sessionFactory;
-	private Object ListSupplier;
-	public SupplierDAOImpl(SessionFactory sessionFactory){
-		this.sessionFactory=sessionFactory;
+
+
+	public SupplierDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
+
 	@Transactional
-	public void saveOrUpdate(Supplier supplier){
+	public List<Supplier> list() {
+		@SuppressWarnings("unchecked")
+		List<Supplier> listSupplier = (List<Supplier>) sessionFactory.getCurrentSession()
+				.createCriteria(Supplier.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+
+		return listSupplier;
+	}
+
+	@Transactional
+	public void saveOrUpdate(Supplier supplier) {
 		sessionFactory.getCurrentSession().saveOrUpdate(supplier);
+	
 	}
 	@Transactional
-	public void delete(String id){
-		Supplier supplierToDelete=new Supplier();
-		supplierToDelete.setId(id);
-		sessionFactory.getCurrentSession().delete(Category);
+	public void delete(String id) {
+		Supplier SupplierToDelete = new Supplier();
+		SupplierToDelete.setId(id);
+		sessionFactory.getCurrentSession().delete(SupplierToDelete);
 	}
-	
+
 	@Transactional
-	
-	public Supplier get(String id){
-		String hql="from Category where id="+"'"+id+"'";
-		//from category where id='101'
-		Query query=(Query) sessionFactory .getCurrentSession().createQuery(hql);
-		List<Supplier> listCategory= (List<Supplier>)  query.getResultList();
+	public Supplier get(String id) {
+		String hql = "from"+" Supplier"+" where id=" + "'"+id+"'";
+		@SuppressWarnings("rawtypes")
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		
-		if(listCategory!=null  &&   !listCategory.isEmpty())
-		{
-			return listCategory.get(0);
+		@SuppressWarnings("unchecked")
+		List<Supplier> listSupplier = (List<Supplier>) query.list();
+		
+		if (listSupplier != null && !listSupplier.isEmpty()) {
+			return listSupplier.get(0);
 		}
+		
 		return null;
 	}
-	@Transactional
-	public List<Supplier>list(){
-		@SuppressWarnings ("unchecked")
-	List<Supplier> listCategory=(List<Supplier>)
-		sessionFactory.getCurrentSession()
-		.createCriteria(Supplier.class)
-		.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		return listCategory;
-	}
-}
-	
 
- 
+
+}

@@ -1,19 +1,25 @@
+
 package com.niit.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.springframework.stereotype.Component;
+
 
 @Entity
 @Table
 @Component
 public class Category {
-	private String id;
-	private String name;
-	private String description;
 	@Id
+	
+	private String id;
+	
+	private String name;
+	
+	private String description;
+	
+	
 	public String getId() {
 		return id;
 	}
@@ -32,5 +38,6 @@ public class Category {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
+	
 }
